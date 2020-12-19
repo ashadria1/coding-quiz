@@ -9,8 +9,7 @@ Requirements:
 As a coding boot camp student, I would like to take a timed quiz on JavaScript fundamentals that stores high scores so that I can gauge my progress compared to my peers.  When I take the code quiz, I click the start button, which starts a timer and displays a question.  When I answer a question, I am presented with another question.  When I answer a question incorrectly, time is subtracted from the clock.  When all questions are answered or the timer reaches 0, the game is over.  When the game is over, I can save my initials and score.  
 
 Screenshot:
-![Screenshot of JS quiz in action!](/relative/path/to/img.jpg?raw=true "Screenshot of JS quiz in action!")
-
+![Screenshot of JS quiz in action!](assets/coding-quiz-screenshot.PNG?raw=true "Screenshot of JS quiz in action!")
 
 Link to deployed application:
 
