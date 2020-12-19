@@ -18,8 +18,8 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./highscores.html">High Scores</a>
-            <p id="showHighScores"></p>
+            <a class="navbar-brand" id="showHighScores" href="./highscores.html">High Scores</a>
+            <p>Initials and scores appear here after quiz is complete.</p>
     </nav>
 
     <!--Welcome message-->
@@ -166,11 +166,19 @@
                 }
                 highScores.push({ initials: initials, score: correctAnswerCounter });
                 localStorage.setItem("highscores", JSON.stringify(highScores));
-                var x = localStorage.getItem("highscores");
+                var x = localStorage.getItem("highscores", JSON.stringify(highScores));
                 document.getElementById("showHighScores").innerHTML = x;
-                })
-            });
-        
+                var tryAgain = confirm("Click OK to try again. Click Cancel to view other scores stored in the console.");
+                if (tryAgain === true) {
+                    alert("Okay!  Good luck!");
+                    location.reload();
+                }
+                else {
+                    alert("Okay!  Thanks for playing!  Refresh the page if you'd like to try again!");
+                }
+            })
+        });
+
     </script>
 
 </body>

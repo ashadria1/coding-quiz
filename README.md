@@ -12,6 +12,10 @@ Screenshot:
 ![Screenshot of JS quiz in action!](assets/coding-quiz-screenshot.PNG?raw=true "Screenshot of JS quiz in action!")
 
 Link to deployed application:
+https://ashadria1.github.io/coding-quiz/
+
+Link to Github repository:
+https://github.com/ashadria1/coding-quiz
 
 
 

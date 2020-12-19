@@ -15,15 +15,13 @@
         
         <script>
             $(document).ready(function(){
-
                 var highScoresFromStorage = JSON.parse(localStorage.getItem("highscores"));
                 for (var i = 0; i < highScoresFromStorage.length; i++) {
                     var h1El = $("<h1>");
                         h1El.text(highScoresFromStorage[i].initials + " - " + highScoresFromStorage[i].score);
                         $("#highscores").append(h1El);
                 }
-            })
-            
+            })            
         </script>
     </body>
 </html>
