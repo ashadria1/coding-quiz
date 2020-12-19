@@ -15,17 +15,24 @@
 
 <body>
     <!--NavBar from Bootstrap, minus a few items-->
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="./highscores.html">High Scores</a>
+            <p id="showHighScores"></p>
     </nav>
 
     <!--Welcome message-->
+
     <div class="container" id="welcome">
         <div class="row">
             <div class="col">
-                <h1 class="text-center">Welcome to the Javascript Quiz!</h1>
-                <h3 class="text-center">Click below to get started.</h3>
+                <h1 class="text-center">Welcome to my JavaScript Quiz!</h1>
+                <br>
+                <h3 class="text-center">Click below to answer 25 questions about JavaScript!</h3>
+                <br>
+                <h4 class="text-center">At the end, you'll be asked to enter your initials to save your score.</h4>
+                <br>
                 <div class="row">
                     <div class="col text-center">
                         <button class="btn btn-primary text-center" id="start-button">Start</button>
@@ -36,6 +43,7 @@
     </div>
 
     <!--Display questions dynamically-->
+
     <div class="container" id="questions" style="display: none">
         <div class="row">
             <div class="col">
@@ -49,6 +57,7 @@
     </div>
 
     <!--Display form to enter initials to store high scores in console-->
+
     <div class="container" id="highscores-container" style="display: none">
         <div class="row">
             <div class="col">
@@ -107,6 +116,7 @@
 
 
             /*When the user clicks the start button, hide the welcome info and show the questions*/
+
             $("#start-button").on("click", function () {
                 $("#welcome").hide();
                 //start timer
@@ -116,6 +126,7 @@
             });
 
             /*check to see if the answer is correct */
+
             $("#question-options").on("click", ".answer", function () {
                 console.log($(this).data("index"));
                 var choiceIndex = $(this).data("index");
@@ -141,6 +152,7 @@
             });
 
             /*store the user's initials and high score */
+
             $("#highscores-form").on("submit", function (e) {
                 e.preventDefault();
                 var initials = $("#initials").val();
@@ -153,10 +165,12 @@
                     highScores = scoresFromStorage
                 }
                 highScores.push({ initials: initials, score: correctAnswerCounter });
-                localStorage.setItem("highscores", JSON.stringify(highScores));                
+                localStorage.setItem("highscores", JSON.stringify(highScores));
+                var x = localStorage.getItem("highscores");
+                document.getElementById("showHighScores").innerHTML = x;
+                })
             });
-        });
-
+        
     </script>
 
 </body>
