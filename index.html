@@ -5,21 +5,160 @@
 <head>
     <meta charset="utf-8">
     <title>My First Coding Quiz!</title>
+    <!--Bootstrap CDN and jQuery CDN-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
         </script>
 </head>
 
 <body>
-    <h1>Hello world!</h1>
-    
-    <script>
-        console.log("Hello world!");
-      
-    
+    <!--NavBar from Bootstrap, minus a few items-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./highscores.html">High Scores</a>
+    </nav>
+
+    <!--Welcome message-->
+    <div class="container" id="welcome">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center">Welcome to the Javascript Quiz!</h1>
+                <h3 class="text-center">Click below to get started.</h3>
+                <div class="row">
+                    <div class="col text-center">
+                        <button class="btn btn-primary text-center" id="start-button">Start</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Display questions dynamically-->
+    <div class="container" id="questions" style="display: none">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center" id="question-text"></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center" id="question-options">
+            </div>
+        </div>
+    </div>
+
+    <!--Display form to enter initials to store high scores in console-->
+    <div class="container" id="highscores-container" style="display: none">
+        <div class="row">
+            <div class="col">
+                <form id="highscores-form">
+                    <div class="mb-3">
+                        <label for="initials" class="form-label">Enter your initials</label>
+                        <input type="text" class="form-control" id="initials">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--Javascript functions to count correct answers and display questions-->
+
+    <script type="text/javascript" src="./questions.js"></script>
+    <script type="text/javascript">
+
+        var correctAnswerCounter = 0;
+        $(document).ready(function () {
+            var index = 0;
+            function displayQuestion() {
+                $("#question-text").text(questions[index].title);
+                $("#question-options").empty();
+                for (var i = 0; i < questions[index].choices.length; i++) {
+                    $("#question-options").append(
+                        $("<button>").addClass("btn btn-success answer").text(questions[index].choices[i]).attr("data-index", i)
+                    );
+                };
+            };
+
+
+            /* Timer function goes here, 10 seconds per question, 25 questions...   -------------------------------------
+                       
+                        function startTimer() {
+                            var counter = 250;
+                            setInterval(function () {
+                                counter--;
+                                if (counter >= 0) {
+                                    span = document.getElementById("count");
+                                    span.innerHTML = counter;
+                                }
+                                if (counter === 0) {
+                                    alert('sorry, out of time');
+                                    clearInterval(counter);
+                                }
+                            }, 1000);
+                        }
+                        function start() {
+                            document.getElementById("count").style = "color:green;";
+                            startTimer();
+                        }; 
+                        
+            -------------------------------------------------------------------------------            */
+
+
+            /*When the user clicks the start button, hide the welcome info and show the questions*/
+            $("#start-button").on("click", function () {
+                $("#welcome").hide();
+                //start timer
+                //show time remaining
+                $("#questions").show();
+                displayQuestion();
+            });
+
+            /*check to see if the answer is correct */
+            $("#question-options").on("click", ".answer", function () {
+                console.log($(this).data("index"));
+                var choiceIndex = $(this).data("index");
+                var selectedAnswer = questions[index].choices[choiceIndex]
+                var correctAnswer = questions[index].answer;
+
+                if (selectedAnswer === correctAnswer) {
+                    alert("That is correct!");
+                    correctAnswerCounter++;
+                } else {
+                    alert("That is incorrect!");
+                    //Take time off timer
+                    //counter--?
+                }
+
+                if (index === questions.length - 1) {
+                    $("#questions").hide();
+                    $("#highscores-container").show();
+                } else {
+                    index++;
+                    displayQuestion();
+                };
+            });
+
+            /*store the user's initials and high score */
+            $("#highscores-form").on("submit", function (e) {
+                e.preventDefault();
+                var initials = $("#initials").val();
+                console.log(initials);
+                console.log(correctAnswerCounter);
+                alert(initials + ", you got " + correctAnswerCounter + " out of 25 answers right!  That's a " + (correctAnswerCounter / 25) * 100 + "% accuracy rate!");
+                var scoresFromStorage = JSON.parse(localStorage.getItem("highscores"));
+                var highScores = [];
+                if (scoresFromStorage) {
+                    highScores = scoresFromStorage
+                }
+                highScores.push({ initials: initials, score: correctAnswerCounter });
+                localStorage.setItem("highscores", JSON.stringify(highScores));                
+            });
+        });
+
     </script>
+
 </body>
 
 </html>
