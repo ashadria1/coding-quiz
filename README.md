@@ -2,7 +2,7 @@
 
 Description:
 
-The task for this coding exercise is to build a timed JavaScript coding quiz with multiple-choice questions.  This app will run in the browser, and will feature dynamically updated HTML and CSS powered by customized JavaScript code.  It will aim to have a clean, polished, and responsive user interface. I spent a good deal of time trying to get the countdown timer to work (finding many online that worked in their own window, but wouldn't work when I tried to adapt it to my code), 
+The task for this coding exercise is to build a timed JavaScript coding quiz with multiple-choice questions.  This app will run in the browser, and will feature dynamically updated HTML and CSS powered by customized JavaScript code.  It will aim to have a clean, polished, and responsive user interface. I spent a good deal of time trying to get the countdown timer to work (finding many online that worked in their own window, but wouldn't work when I tried to adapt it to my code), but I was finally able to make the Tomato Timer work for my purposes.
 
 Requirements:
 
