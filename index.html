@@ -29,7 +29,7 @@
             <div class="col">
                 <h1 class="text-center">Welcome to my JavaScript Quiz!</h1>
                 <br>
-                <h3 class="text-center">Click below to answer 25 questions about JavaScript!</h3>
+                <h3 class="text-center">Click Start to answer my 25 questions about JavaScript!  You'll have four minutes, but feel free to use the toggle below to add or subtract more time.  You'll lose 10 seconds for every wrong answer.</h3>
                 <br>
                 <h4 class="text-center">At the end, you'll be asked to enter your initials to save your score.</h4>
                 <br>
@@ -72,6 +72,29 @@
         </div>
     </div>
 
+    <!--Timer display-->
+
+    <div class="container">
+        <div class="timer">
+            <div id="hand"></div>
+            <div class="controls">
+                <div class="status">Status: <span id="status">Quizzing</span></div>
+                <div class="time">
+                    <div id="minutes">4</div>
+                    <div id="seconds">00</div>
+                </div>
+            </div>
+        </div>
+        <div class="inputs">
+            <div class="input-group">
+                <label for="work-minutes">Minutes of Quizzing</label>
+                <input type="number" name="work" id="work-minutes" value="4" />
+            </div>
+            <script src="./timer-script.js"></script>
+
+        </div>
+    </div>
+
     <!--Javascript functions to count correct answers and display questions-->
 
     <script type="text/javascript" src="./questions.js"></script>
@@ -87,40 +110,14 @@
                     $("#question-options").append(
                         $("<button>").addClass("btn btn-success answer").text(questions[index].choices[i]).attr("data-index", i)
                     );
-                };
+                };                
             };
 
-
-            /* Timer function goes here, 10 seconds per question, 25 questions...   -------------------------------------
-                       
-                        function startTimer() {
-                            var counter = 250;
-                            setInterval(function () {
-                                counter--;
-                                if (counter >= 0) {
-                                    span = document.getElementById("count");
-                                    span.innerHTML = counter;
-                                }
-                                if (counter === 0) {
-                                    alert('sorry, out of time');
-                                    clearInterval(counter);
-                                }
-                            }, 1000);
-                        }
-                        function start() {
-                            document.getElementById("count").style = "color:green;";
-                            startTimer();
-                        }; 
-                        
-            -------------------------------------------------------------------------------            */
-
-
-            /*When the user clicks the start button, hide the welcome info and show the questions*/
+            /*When the user clicks the start button, hide the welcome info, start the timer, and show the questions*/
 
             $("#start-button").on("click", function () {
                 $("#welcome").hide();
-                //start timer
-                //show time remaining
+                startTimer();
                 $("#questions").show();
                 displayQuestion();
             });
@@ -137,9 +134,8 @@
                     alert("That is correct!");
                     correctAnswerCounter++;
                 } else {
-                    alert("That is incorrect!");
-                    //Take time off timer
-                    //counter--?
+                    alert("That is incorrect!  You lose 10 seconds!");
+                    secondsElapsed = secondsElapsed + 10;                    
                 }
 
                 if (index === questions.length - 1) {
@@ -153,18 +149,19 @@
 
             /*store the user's initials and high score */
 
+            pauseTimer();
             $("#highscores-form").on("submit", function (e) {
                 e.preventDefault();
                 var initials = $("#initials").val();
                 console.log(initials);
                 console.log(correctAnswerCounter);
-                alert(initials + ", you got " + correctAnswerCounter + " out of 25 answers right!  That's a " + (correctAnswerCounter / 25) * 100 + "% accuracy rate!");
+                alert(initials + ", you got " + correctAnswerCounter + " out of 25 answers right!  That's a " + (correctAnswerCounter / 25) * 100 + "% accuracy rate!  And in only " + secondsElapsed + " seconds!");
                 var scoresFromStorage = JSON.parse(localStorage.getItem("highscores"));
                 var highScores = [];
                 if (scoresFromStorage) {
                     highScores = scoresFromStorage
                 }
-                highScores.push({ initials: initials, score: correctAnswerCounter });
+                highScores.push({ initials: initials, score: correctAnswerCounter, time: secondsElapsed });
                 localStorage.setItem("highscores", JSON.stringify(highScores));
                 var x = localStorage.getItem("highscores", JSON.stringify(highScores));
                 document.getElementById("showHighScores").innerHTML = x;
@@ -175,6 +172,7 @@
                 }
                 else {
                     alert("Okay!  Thanks for playing!  Refresh the page if you'd like to try again!");
+                    stopTimer();
                 }
             })
         });
